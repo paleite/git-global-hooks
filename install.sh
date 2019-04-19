@@ -78,7 +78,7 @@ for GIT_HOOK in "${GIT_HOOKS[@]}";
 do
   cp "${TEMP_PATH}" "${GIT_HOOK}"
   touch "${GIT_HOOK}".global.sh
-  chmod +x "${GIT_HOOK}".global.sh
+  chmod +x "${GIT_HOOK}" "${GIT_HOOK}".global.sh
 done
 
 echo "🔗  Setting global hooks path to $(tput setaf 3)$(pwd)$(tput sgr0)..."
