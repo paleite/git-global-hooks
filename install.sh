@@ -59,13 +59,13 @@ readonly LOCAL_HOOK="${LOCAL_DIR}/${GIT_DIR}hooks/$HOOK"
 if [[ -s "$GLOBAL_HOOK" ]]
 then
   echo "🌍  $HOOK hook"
-  "$GLOBAL_HOOK"
+  "$GLOBAL_HOOK" "$@"
 fi
 
 if [[ -s "$LOCAL_HOOK" ]]
 then
   echo "🏠  $HOOK hook"
-  "$LOCAL_HOOK"
+  "$LOCAL_HOOK" "$@"
 fi
 END_OF_TEMPLATE
 )
