@@ -37,7 +37,7 @@ readonly GIT_HOOKS=(applypatch-msg commit-msg post-applypatch post-checkout post
 readonly TEMP_PATH=$(mktemp)
 readonly TEMPLATE=$(
   cat <<'END_OF_TEMPLATE'
-#!/usr/bin/env bash
+#!/bin/bash
 
 ########################################################
 # DON'T EDIT THIS FILE. EDIT THE .global-FILE INSTEAD. #
@@ -56,18 +56,18 @@ readonly LOCAL_DIR="$(pwd)"
 readonly LOCAL_HOOK="${LOCAL_DIR}/${GIT_DIR}hooks/$HOOK"
 
 if [[ -s "$GLOBAL_HOOK" ]]; then
-  echo "🌍  $HOOK hook"
+  echo "🌍 $HOOK hook"
   "$GLOBAL_HOOK" "$@"
 fi
 
 if [[ -s "$LOCAL_HOOK" ]]; then
-  echo "🏠  $HOOK hook"
+  echo "🏠 $HOOK hook"
   "$LOCAL_HOOK" "$@"
 fi
 END_OF_TEMPLATE
 )
 
-echo "📄  Copying template..."
+echo "📄 Copying template..."
 # Use an intermediate file and copy it, rather than overwriting the destination,
 # so as not to clobber pre-existing hooks.
 echo "${TEMPLATE}" >"${TEMP_PATH}"
@@ -77,9 +77,9 @@ for GIT_HOOK in "${GIT_HOOKS[@]}"; do
   chmod +x "${GIT_HOOK}" "${GIT_HOOK}".global.sh
 done
 
-echo "🔗  Setting global hooks path to $(tput setaf 3)$(pwd)$(tput sgr0)..."
+echo "🔗 Setting global hooks path to $(tput setaf 3)$(pwd)$(tput sgr0)..."
 git config --global core.hooksPath "$(pwd)"
 
 echo "$(tput setaf 2)success$(tput sgr0) Installed global hooks."
 echo "$(tput setaf 4)info$(tput sgr0) Create global hooks, by modifying the *.global.sh-files in $(tput setaf 3)$(pwd)$(tput sgr0)."
-echo "✨  Done."
+echo "✨ Done."
