@@ -54,14 +54,18 @@ readonly GLOBAL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pw
 readonly GLOBAL_HOOK="${GLOBAL_DIR}/$HOOK.global.sh"
 readonly LOCAL_DIR="$(pwd)"
 readonly LOCAL_HOOK="${LOCAL_DIR}/${GIT_DIR}hooks/$HOOK"
+readonly LOCAL_HOOK_CONFIG="$(cd "$LOCAL_DIR" && cd "$(git config --local core.hooksPath)" && realpath $HOOK)"
 
 if [[ -s "$GLOBAL_HOOK" ]]; then
-  echo "🌍 $HOOK hook"
+  echo "🌍 $HOOK hook (git config --global core.hooksPath)"
   "$GLOBAL_HOOK" "$@"
 fi
 
-if [[ -s "$LOCAL_HOOK" ]]; then
-  echo "🏠 $HOOK hook"
+if [[ -s "$LOCAL_HOOK_CONFIG" ]]; then
+  echo "🏠 $HOOK hook (git config --local core.hooksPath)"
+  "$LOCAL_HOOK_CONFIG" "$@"
+elif [[ -s "$LOCAL_HOOK" ]]; then
+  echo "🏠 $HOOK hook (.git/hooks)"
   "$LOCAL_HOOK" "$@"
 fi
 END_OF_TEMPLATE
